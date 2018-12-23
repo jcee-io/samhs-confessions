@@ -1,7 +1,22 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './style/FormPage.css';
 
-class FormPage extends Component {
+class FormPage extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      allowComments: true,
+      readTW: true,
+      allTW: '',
+      intent: '',
+      submission: '',
+    };
+  }
+
+  onSubmit = event => {
+
+  };
+
   render() {
     return (
       <div className="form-page">
@@ -22,9 +37,9 @@ class FormPage extends Component {
           </p>
           <div className="allow-comments">
             <h2>Would you like commenting to be allowed?</h2>
-            <div className="radio-button-container">
-              <span><input type="radio" /> Yes</span>
-              <span><input type="radio" /> No</span>
+            <div ref="allowComments" className="radio-button-container">
+              <span><input type="radio" name="comments" /> Yes</span>
+              <span><input type="radio" name="comments" /> No</span>
             </div>
           </div>
           <div className="tw-docs">
@@ -32,22 +47,22 @@ class FormPage extends Component {
               Have you read the document on Trigger Warnings?
               Link here: https://goo.gl/iLPMCU
             </h2>
-            <div className="radio-button-container">
-              <span><input type="radio" /> Yes</span>
-              <span><input type="radio" /> No</span>
+            <div ref="twDocs" className="radio-button-container">
+              <span><input type="radio" name="read-tw" /> Yes</span>
+              <span><input type="radio" name="read-tw" /> No</span>
             </div>
           </div>
           <div className="tw-types">
             <h2>What triggers would your submission have? *</h2>
-            <input className="text-input" />
+            <input ref="twInput" className="text-input" />
           </div>
           <div className="motive-text">
             <h2>What are you looking for? Ex: Advice, Validation, Support, Opinion. *</h2>
-            <input className="text-input" />
+            <input ref="motiveInput" className="text-input" />
           </div>
           <div className="submission">
             <h2>Submission *</h2>
-            <textarea rows="15">
+            <textarea ref="submissionInput" rows="15">
             </textarea>
           </div>
 
