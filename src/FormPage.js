@@ -1,22 +1,43 @@
 import React, { PureComponent } from 'react';
+import ReactDOM from 'react-dom';
 import './style/FormPage.css';
 
 class FormPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      allowComments: true,
-      readTW: true,
+      allowComments: null,
+      readTW: null,
       allTW: '',
       intent: '',
       submission: '',
     };
   }
 
-  onSubmit = event => {
-
+  onSubmit = () => {
+    console.log(this.state);
   };
 
+  handleTWDocs = event => {
+    const readTW = event.target.value === 'yes';
+    this.setState({ readTW });
+  };
+
+  handleAllowCommenting = event => {
+    const allowComments = event.target.value === 'yes';
+    this.setState({ allowComments });
+  }
+
+  handleTriggers = event => {
+    this.setState({ allTW: event.target.value });
+  };
+
+  handleIntent = event => {
+    this.setState({ intent: event.target.value });
+  };
+  handleSubmission = event => {
+    this.setState({ submission: event.target.value });
+  };
   render() {
     return (
       <div className="form-page">
@@ -37,9 +58,9 @@ class FormPage extends PureComponent {
           </p>
           <div className="allow-comments">
             <h2>Would you like commenting to be allowed?</h2>
-            <div ref="allowComments" className="radio-button-container">
-              <span><input type="radio" name="comments" /> Yes</span>
-              <span><input type="radio" name="comments" /> No</span>
+            <div className="radio-button-container">
+              <span><input value="yes" type="radio" name="comments" /> Yes</span>
+              <span><input value="no" type="radio" name="comments" /> No</span>
             </div>
           </div>
           <div className="tw-docs">
@@ -47,26 +68,26 @@ class FormPage extends PureComponent {
               Have you read the document on Trigger Warnings?
               Link here: https://goo.gl/iLPMCU
             </h2>
-            <div ref="twDocs" className="radio-button-container">
-              <span><input type="radio" name="read-tw" /> Yes</span>
-              <span><input type="radio" name="read-tw" /> No</span>
+            <div onChange={this.handleTWDocs} className="radio-button-container">
+              <span><input value="yes" type="radio" name="read-tw" /> Yes</span>
+              <span><input value="no" type="radio" name="read-tw" /> No</span>
             </div>
           </div>
           <div className="tw-types">
             <h2>What triggers would your submission have? *</h2>
-            <input ref="twInput" className="text-input" />
+            <input onChange={this.handleTriggers} className="text-input" />
           </div>
           <div className="motive-text">
             <h2>What are you looking for? Ex: Advice, Validation, Support, Opinion. *</h2>
-            <input ref="motiveInput" className="text-input" />
+            <input onChange={this.handleIntent} className="text-input" />
           </div>
           <div className="submission">
             <h2>Submission *</h2>
-            <textarea ref="submissionInput" rows="15">
+            <textarea onChange={this.handleSubmission} rows="15">
             </textarea>
           </div>
 
-          <button>Submit</button>
+          <button onClick={this.onSubmit}>Submit</button>
         </div>
         <div className="placeholder-box"/>
       </div>
