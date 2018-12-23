@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import FormPage from './FormPage';
 import './style/App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Switch>
+            <Route exact path="/" component={FormPage} />
+            <Route exact path="*" component={FormPage} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
