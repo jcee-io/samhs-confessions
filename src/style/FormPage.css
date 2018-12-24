@@ -18,7 +18,8 @@
 }
 
 .form-container h2,
-.form-container p {
+.form-container p,
+.form-container .tw-docs {
   text-align: left;
 }
 
@@ -29,6 +30,14 @@
   margin: 1em 3em;
 }
 
+.form-container .tw-docs h2 {
+  margin-bottom: 0;
+}
+.form-container a {
+  margin-left: 3em;
+}
+
+
 .form-container textarea {
   resize: none;
   width: 90%;
@@ -37,6 +46,10 @@
 .form-container .radio-button-container {
   display: flex;
   justify-content: space-around;
+}
+
+.form-container .tw-docs .radio-button-container {
+    margin-top: 2em;
 }
 
 .form-container .radio-button-container span {

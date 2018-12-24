@@ -66,15 +66,15 @@ class FormPage extends PureComponent {
           <div className="tw-docs">
             <h2>
               Have you read the document on Trigger Warnings?
-              Link here: https://goo.gl/iLPMCU
             </h2>
+            <a href="https://goo.gl/iLPMCU" target="_blank">Link to document on trigger warnings</a>
             <div onChange={this.handleTWDocs} className="radio-button-container">
               <span><input value="yes" type="radio" name="read-tw" /> Yes</span>
               <span><input value="no" type="radio" name="read-tw" /> No</span>
             </div>
           </div>
           <div className="tw-types">
-            <h2>What triggers would your submission have? *</h2>
+            <h2>What kind of trigger/content warnings would your submission have? *</h2>
             <input onChange={this.handleTriggers} className="text-input" />
           </div>
           <div className="motive-text">
