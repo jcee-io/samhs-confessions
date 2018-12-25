@@ -17,7 +17,27 @@ class FormPage extends PureComponent {
   }
 
   onSubmit = () => {
-    console.log(this.state);
+    const {
+      allowComments,
+      readTW,
+      allTW,
+      intent,
+      submission,
+    } = this.state;
+
+    fetch('/confessions', {
+      method: 'POST',
+      body: JSON.stringify({
+        allowComments,
+        readTW,
+        allTW,
+        intent,
+        submission,
+      }),
+      headers:{
+        'Content-Type': 'application/json'
+      },
+    });
     this.setState({ isSubmitted: true });
   };
 
