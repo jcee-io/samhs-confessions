@@ -1,0 +1,19 @@
+.admin-page {
+  height: auto;
+  width: 70%;
+  max-width: 69em;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.placeholder-box {
+  height: 40px;
+}
+
+.entry-container {
+  min-height: 90%;
+  width: 100%;
+  background-color: whitesmoke;
+  padding-bottom: 3%;
+}
