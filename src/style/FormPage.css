@@ -1,62 +1,30 @@
-.form-page {
-  height: auto;
-  width: 70%;
-  max-width: 69em;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.placeholder-box {
-  height: 40px;
-}
 .form-container {
-  min-height: 90%;
-  width: 100%;
-  background-color: whitesmoke;
-  padding-bottom: 3%;
+    background-color: white;
+    margin: 5% 10%;
+    padding: 5%;
+    box-shadow: rgba(0, 0, 0, 0.75) 10px 10px 27px -8px;;
 }
 
-.form-container h2,
-.form-container p {
-  text-align: left;
+h1 {
+    font-weight: bold;
+    text-shadow: 3px 1px 7px rgba(150, 150, 150, 1);
+    font-size: 3em;
 }
 
-.form-container h2 {
-  margin: 1em 2em;
-}
-.form-container p {
-  margin: 1em 3em;
+img {
+    display: initial !important; /* need to fix this */
 }
 
-.form-container textarea {
-  resize: none;
-  width: 90%;
+input, textarea {
+    background-color: #eceaea !important; /* need to fix this */
 }
 
-.form-container .radio-button-container {
-  display: flex;
-  justify-content: space-around;
+label {
+    font-size: 2em;
 }
 
-.form-container .radio-button-container span {
-  transform: scale(1.5);
+input[type='radio'] {
+    transform: scale(1.5);
+
 }
 
-.form-container .radio-button-container span input {
-  transform: translateY(0.1em);
-}
-.form-container .text-input {
-  width: 90%;
-  height: 1.5em;
-}
-
-.form-container button {
-  background-color: rgb(106, 175, 118);
-  border: none;
-  color: whitesmoke;
-  font-size: 1.5em;
-  width: 20%;
-  padding: 0.3em;
-  transform: translateY(30%);
-}
