@@ -49,7 +49,7 @@ class FormPage extends PureComponent {
                         <h1>Sad Asian Confessions <br/>Anonymous</h1>
                         <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
                     </div>
-                    <h2>Submission Guidelines</h2>
+                    <h2 className={`guideline-title`}>Submission Guidelines</h2>
                     <p>
                         1. Submit whatever is on your mind.
                         <br />
@@ -100,13 +100,6 @@ class FormPage extends PureComponent {
                             </div>
                         </div>
                     </div>
-
-                        <div className="form-group">
-                            <label htmlFor="twInput">
-                                <h2>What triggers would your submission have? *</h2>
-                            </label>
-                            <input onChange={this.handleTriggers} className="form-control" id="twInput"/>
-                        </div>
 
                     <div className={`tw-types form-group`}>
                         <label for="twTypesInput">

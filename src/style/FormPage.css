@@ -5,6 +5,14 @@
     box-shadow: rgba(0, 0, 0, 0.75) 10px 10px 27px -8px;;
 }
 
+.guideline-title {
+    color: darkred;
+}
+
+h2 {
+    margin-bottom: 5%;
+}
+
 h1 {
     font-weight: bold;
     text-shadow: 3px 1px 7px rgba(150, 150, 150, 1);
