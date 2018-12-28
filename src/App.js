@@ -12,7 +12,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/admin" component={AdminPage} />
             <Route exact path="/" component={FormPage} />
-            <Route exact path="*" component={FormPage} />
           </Switch>
         </div>
       </BrowserRouter>
