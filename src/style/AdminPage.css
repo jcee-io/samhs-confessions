@@ -22,3 +22,8 @@
   text-align: left;
   margin: 1em 4em;
 }
+
+.entry-container textarea {
+  display: block;
+  margin: 0 auto;
+}

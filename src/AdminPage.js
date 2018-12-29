@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './style/AdminPage.css';
 import { toWords } from 'number-to-words';
 import { words as capitalize } from 'capitalize';
+import Clipboard from 'react-clipboard.js';
 
 class AdminPage extends Component {
   constructor() {
@@ -23,8 +24,9 @@ class AdminPage extends Component {
   };
 
   renderConfessions = () => {
-    return this.state.confessions.map(confession => (
-      <div className="confession" key={confession._id}>
+    return this.state.confessions.map(confession => {
+      const submission = `#SubtleAsianConfession ${capitalize(toWords(confession.entry))}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
+      return (<div className="confession" key={confession._id}>
         <h2>Commenting Allowed? {confession.allowComments ? 'Yes' : 'No'}</h2>
         <h2>Read Trigger Warning? {confession.readTW ? 'Yes' : 'No'}</h2>
         <h2>Submission:</h2>
@@ -32,11 +34,15 @@ class AdminPage extends Component {
           id={confession._id}
           rows="25"
           cols="125"
-          value={`#SubtleAsianConfession ${capitalize(toWords(confession.entry))}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`}
+          value={submission}
           readOnly
         />
-      </div>
-    ));
+        <Clipboard data-clipboard-text={submission}>
+          Copy to Clipboard
+        </Clipboard>
+
+      </div>);
+    });
   };
   render() {
     return (
