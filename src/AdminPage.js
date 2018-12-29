@@ -3,7 +3,6 @@ import './style/AdminPage.css';
 import { toWords } from 'number-to-words';
 import { words as capitalize } from 'capitalize';
 import Clipboard from 'react-clipboard.js';
-import InfiniteScroll from 'react-infinite-scroller';
 
 class AdminPage extends Component {
   constructor() {
