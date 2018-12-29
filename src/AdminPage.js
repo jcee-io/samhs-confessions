@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './style/AdminPage.css';
+import { toWords } from 'number-to-words';
+import { words as capitalize } from 'capitalize';
 
 class AdminPage extends Component {
   constructor() {
@@ -26,7 +28,13 @@ class AdminPage extends Component {
         <h2>Commenting Allowed? {confession.allowComments ? 'Yes' : 'No'}</h2>
         <h2>Read Trigger Warning? {confession.readTW ? 'Yes' : 'No'}</h2>
         <h2>Submission:</h2>
-        <textarea rows="25" cols="125" value={`TW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n\n${confession.submission}`} readOnly />
+        <textarea
+          id={confession._id}
+          rows="25"
+          cols="125"
+          value={`#SubtleAsianConfession ${capitalize(toWords(confession.entry))}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`}
+          readOnly
+        />
       </div>
     ));
   };

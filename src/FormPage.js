@@ -38,7 +38,7 @@ class FormPage extends PureComponent {
         'Content-Type': 'application/json'
       },
     });
-    this.setState({ isSubmitted: true });
+    // this.setState({ isSubmitted: true });
   };
 
   handleTWDocs = event => {
@@ -96,7 +96,7 @@ class FormPage extends PureComponent {
         </p>
         <div className="allow-comments">
           <h2>Would you like commenting to be allowed?</h2>
-          <div className="radio-button-container">
+          <div onChange={this.handleAllowCommenting} className="radio-button-container">
             <span><input value="yes" type="radio" name="comments" /> Yes</span>
             <span><input value="no" type="radio" name="comments" /> No</span>
           </div>
