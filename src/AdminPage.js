@@ -3,6 +3,7 @@ import './style/AdminPage.css';
 import { toWords } from 'number-to-words';
 import { words as capitalize } from 'capitalize';
 import Clipboard from 'react-clipboard.js';
+import InfiniteScroll from 'react-infinite-scroller';
 
 class AdminPage extends Component {
   constructor() {
@@ -10,6 +11,7 @@ class AdminPage extends Component {
 
     this.state = {
       confessions: [],
+      page: 1,
     };
   };
 
@@ -21,7 +23,12 @@ class AdminPage extends Component {
           this.setState({ confessions });
         }
       });
+    document.addEventListener('scroll', this.trackScrolling);
   };
+
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.trackScrolling);
+  }
 
   renderConfessions = () => {
     return this.state.confessions.map(confession => {
@@ -44,13 +51,25 @@ class AdminPage extends Component {
       </div>);
     });
   };
+
+  isBottom = (el) => {
+    return el.getBoundingClientRect().bottom <= window.innerHeight;
+  };
+
+  trackScrolling = () => {
+    const wrappedElement = document.querySelector('.entry-container');
+
+    if (this.isBottom(wrappedElement)) {
+      this.setState({ page: this.state.page + 1 });
+    }
+  };
   render() {
     return (
       <div className="admin-page">
         <div className="placeholder-box"/>
         <div className="entry-container">
           <h1>Admin Confessions View</h1>
-          {this.renderConfessions()}
+          {this.renderConfessions().slice(0, 10 * this.state.page)}
         </div>
         <div className="placeholder-box"/>
       </div>
