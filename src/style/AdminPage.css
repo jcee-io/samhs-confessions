@@ -26,4 +26,38 @@
 .entry-container textarea {
   display: block;
   margin: 0 auto;
+  width: 82.8%;
+}
+
+.entry-container .button-row {
+  width: 100%;
+  margin: 0 25%;
+  margin: 0 auto;
+}
+
+.entry-container .button-row button {
+  width: 41.7%;
+  padding: 0.5em 0;
+}
+
+.entry-container .button-row .clipboard {
+  color: #fff;
+  background-color: rgb(106, 175, 118);
+  border-color: #4cae4c;
+}
+
+.entry-container .button-row .clipboard:hover {
+  background-color: #47a447;
+  border-color: #398439;
+}
+
+.entry-container .button-row .delete {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.entry-container .button-row .delete:hover {
+  background-color: #d2322d;
+  border-color: #ac2925;
 }

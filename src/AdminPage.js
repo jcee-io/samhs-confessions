@@ -40,14 +40,17 @@ class AdminPage extends Component {
         <textarea
           id={confession._id}
           rows="25"
-          cols="125"
           value={submission}
           readOnly
         />
-        <Clipboard data-clipboard-text={submission}>
-          Copy to Clipboard
-        </Clipboard>
-
+        <div className="button-row">
+          <Clipboard className="clipboard" data-clipboard-text={submission}>
+            Copy to Clipboard
+          </Clipboard>
+          <button className="delete">
+            Delete
+          </button>
+        </div>
       </div>);
     });
   };
