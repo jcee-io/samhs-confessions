@@ -29,10 +29,19 @@ class AdminPage extends Component {
     document.removeEventListener('scroll', this.trackScrolling);
   }
 
+  handleDelete = event => {
+    const confessions = [...this.state.confessions].filter(confession => {
+      return confession._id !== event.target.value;
+    });
+
+    this.setState({ confessions });
+  };
   renderConfessions = () => {
     return this.state.confessions.map(confession => {
-      const submission = `#SubtleAsianConfession ${capitalize(toWords(confession.entry))}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
+      const entry = capitalize(toWords(confession.entry));
+      const submission = `#SubtleAsianConfession ${entry}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
       return (<div className="confession" key={confession._id}>
+        <h2>Entry: {entry}</h2>
         <h2>Commenting Allowed? {confession.allowComments ? 'Yes' : 'No'}</h2>
         <h2>Read Trigger Warning? {confession.readTW ? 'Yes' : 'No'}</h2>
         <h2>Submission:</h2>
@@ -46,7 +55,7 @@ class AdminPage extends Component {
           <Clipboard className="clipboard" data-clipboard-text={submission}>
             Copy to Clipboard
           </Clipboard>
-          <button className="delete">
+          <button value={confession._id} onClick={this.handleDelete} className="delete">
             Delete
           </button>
         </div>
