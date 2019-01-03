@@ -1,6 +1,6 @@
 .form-page {
   height: auto;
-  width: 70%;
+  width: calc(100% - 2vh);
   max-width: 69em;
   margin: 0 auto;
   display: flex;
@@ -77,4 +77,18 @@
 
 .submitted h2 {
   text-align: center;
+}
+
+@media only screen and (max-width: 1140px) {
+  .form-page {
+    width: 100%;
+    max-width: none;
+  }
+
+  .entry-container {
+
+  }
+  .placeholder-box {
+    height: 0;
+  }
 }

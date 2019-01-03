@@ -1,11 +1,12 @@
 .admin-page {
   height: auto;
-  width: 70%;
+  width: calc(100% - 2vh);
   max-width: 69em;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
+
 
 .placeholder-box {
   height: 40px;
@@ -20,13 +21,14 @@
 
 .entry-container h2 {
   text-align: left;
-  margin: 1em 4em;
+  margin: 1em 6%;
+  font-size: 1em;
 }
 
 .entry-container textarea {
   display: block;
   margin: 0 auto;
-  width: 82.8%;
+  width: 87.5%;
 }
 
 .entry-container .button-row {
@@ -36,7 +38,7 @@
 }
 
 .entry-container .button-row button {
-  width: 41.7%;
+  width: 44.05%;
   padding: 0.5em 0;
 }
 
@@ -60,4 +62,18 @@
 .entry-container .button-row .delete:hover {
   background-color: #d2322d;
   border-color: #ac2925;
+}
+
+@media only screen and (max-width: 1140px) {
+  .admin-page {
+    width: 100%;
+    max-width: none;
+  }
+
+  .entry-container {
+
+  }
+  .placeholder-box {
+    height: 0;
+  }
 }
