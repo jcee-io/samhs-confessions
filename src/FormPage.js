@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import { animateScroll as scroll } from 'react-scroll';
+
 import './style/FormPage.css';
 
 class FormPage extends PureComponent {
@@ -41,7 +43,10 @@ class FormPage extends PureComponent {
         triggerError: !allTW,
         intentError: !intent,
         submissionError: !submission
+      }, () => {
+        scroll.scrollToTop();
       });
+
 
       return;
     }
