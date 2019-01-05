@@ -79,6 +79,15 @@
   text-align: center;
 }
 
+.error-box {
+  margin: 0 auto;
+  display: inline-block;
+  background-color: rgba(192,72,72, 0.8);
+  color: whitesmoke;
+  width: 80%;
+  text-align: center;
+  border-radius: 0.5em;
+}
 @media only screen and (max-width: 1140px) {
   .form-page {
     width: 100%;
