@@ -16,6 +16,8 @@ class FormPage extends PureComponent {
       submission: '',
       isSubmitted: false,
       hasError: false,
+      commentsError: false,
+      docsError: false,
       triggerError: false,
       intentError: false,
       submissionError: false,
@@ -32,14 +34,16 @@ class FormPage extends PureComponent {
     } = this.state;
 
     if(
-      !allowComments ||
-      !readTW ||
+      allowComments === null ||
+      readTW === null ||
       !allTW || allTW === '' ||
       !intent || intent === '' ||
       !submission || submission === ''
     ) {
       this.setState({
         hasError: true,
+        commentsError: allowComments === null,
+        docsError: readTW === null,
         triggerError: !allTW,
         intentError: !intent,
         submissionError: !submission
@@ -64,17 +68,17 @@ class FormPage extends PureComponent {
         'Content-Type': 'application/json'
       },
     });
-    // this.setState({ isSubmitted: true });
+    this.setState({ isSubmitted: true });
   };
 
   handleTWDocs = event => {
     const readTW = event.target.value === 'yes';
-    this.setState({ readTW });
+    this.setState({ readTW, docsError: false });
   };
 
   handleAllowCommenting = event => {
     const allowComments = event.target.value === 'yes';
-    this.setState({ allowComments });
+    this.setState({ allowComments, commentsError: false });
   }
 
   handleTriggers = event => {
@@ -94,23 +98,33 @@ class FormPage extends PureComponent {
 
   renderErrorDiv = () => {
     const {
-      allowComments,
-      readTW,
+      commentsError,
+      docsError,
       triggerError,
       intentError,
       submissionError
     } = this.state;
 
-    return (
-      <div className="error-box">
-        <h2>ERROR: One or more required fields were not filled out</h2>
-        {allowComments === null && <p>- Allowing Comments</p>}
-        {readTW === null && <p>- Reading the document on Trigger Warnings</p>}
-        {triggerError && <p>- Trigger and content warnings</p>}
-        {intentError && <p>- Intent/Looking for/Seeking field</p>}
-        {submissionError && <p>- Submission form</p>}
-      </div>
-    )
+    if(
+      commentsError ||
+      docsError ||
+      triggerError ||
+      intentError ||
+      submissionError
+    ) {
+      return (
+        <div className="error-box">
+          <h2>ERROR: One or more required fields were not filled out</h2>
+          {commentsError && <p>- Allowing Comments</p>}
+          {docsError && <p>- Reading the document on Trigger Warnings</p>}
+          {triggerError && <p>- Trigger and content warnings</p>}
+          {intentError && <p>- Intent/Looking for/Seeking field</p>}
+          {submissionError && <p>- Submission form</p>}
+        </div>
+      )
+    }
+
+    return null;
   };
 
   renderContent = () => {
