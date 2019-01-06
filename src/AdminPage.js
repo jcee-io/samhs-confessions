@@ -3,6 +3,7 @@ import './style/AdminPage.css';
 import { toWords } from 'number-to-words';
 import { words as capitalize } from 'capitalize';
 import Clipboard from 'react-clipboard.js';
+import adminpass from './adminpass';
 
 class AdminPage extends Component {
   constructor() {
@@ -11,6 +12,7 @@ class AdminPage extends Component {
     this.state = {
       confessions: [],
       page: 1,
+      access: false,
     };
   };
 
@@ -50,8 +52,34 @@ class AdminPage extends Component {
       });
     });
   };
+
+  handleAccess = event => {
+    if(event.keyCode !== 13) return;
+
+    if(event.target.value === adminpass) {
+      this.setState({ access: true });
+    }
+  };
+  renderPasswordInput = () => {
+    return (
+      <div className="confession">
+        <h1>RESTRICTED ACCESS: TEAM MEMBERS ONLY</h1>
+        <h1>ENTER PASSWORD</h1>
+        <input onKeyDown={this.handleAccess} type="password" className="access-input" />
+      </div>
+    )
+  };
+
   renderConfessions = () => {
-    return this.state.confessions.map((confession, index) => {
+    const { confessions } = this.state;
+
+    if(!confessions || !confessions.length) {
+      return [
+        <h1>No confessions loaded</h1>
+      ];
+    }
+
+    return confessions.map((confession, index) => {
       const entry = capitalize(toWords(index + 150));
       const submission = `#SubtleAsianConfession ${entry}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
       return (<div className="confession" key={confession._id}>
@@ -93,8 +121,9 @@ class AdminPage extends Component {
       <div className="admin-page">
         <div className="placeholder-box"/>
         <div className="entry-container">
-          <h1>Admin Confessions View</h1>
-          {this.renderConfessions().slice(0, 10 * this.state.page)}
+          {this.state.access && <h1>Admin Confessions View</h1>}
+          {this.state.access && this.renderConfessions().slice(0, 10 * this.state.page)}
+          {!this.state.access && this.renderPasswordInput()}
         </div>
         <div className="placeholder-box"/>
       </div>

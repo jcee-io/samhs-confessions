@@ -64,6 +64,10 @@
   border-color: #ac2925;
 }
 
+.access-input {
+  width: 25%;
+  font-size: 2em;
+}
 @media only screen and (max-width: 1140px) {
   .admin-page {
     width: 100%;
