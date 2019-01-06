@@ -30,15 +30,29 @@ class AdminPage extends Component {
   }
 
   handleDelete = event => {
+    let _id;
+
     const confessions = [...this.state.confessions].filter(confession => {
+      if(confession._id == event.target.value) {
+        _id = confession._id;
+      }
+
       return confession._id !== event.target.value;
     });
 
-    this.setState({ confessions });
+    this.setState({ confessions }, () => {
+      fetch('/confessions', {
+        method: 'DELETE',
+        body: JSON.stringify({ _id }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+    });
   };
   renderConfessions = () => {
-    return this.state.confessions.map(confession => {
-      const entry = capitalize(toWords(confession.entry));
+    return this.state.confessions.map((confession, index) => {
+      const entry = capitalize(toWords(index + 150));
       const submission = `#SubtleAsianConfession ${entry}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
       return (<div className="confession" key={confession._id}>
         <h2>Entry: {entry}</h2>
@@ -60,7 +74,7 @@ class AdminPage extends Component {
           </button>
         </div>
       </div>);
-    });
+    }).reverse();
   };
 
   isBottom = (el) => {
