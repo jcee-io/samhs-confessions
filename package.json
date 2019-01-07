@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "capitalize": "^2.0.0",
     "number-to-words": "^1.2.4",
     "react": "^16.7.0",

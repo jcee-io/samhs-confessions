@@ -68,6 +68,14 @@
   width: 25%;
   font-size: 2em;
 }
+
+.remember-row {
+  display: block;
+  font-size: 1.5em;
+}
+.remember-row input {
+  transform: scale(1.5);
+}
 @media only screen and (max-width: 1140px) {
   .admin-page {
     width: 100%;
