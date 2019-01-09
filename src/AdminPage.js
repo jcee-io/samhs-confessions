@@ -60,15 +60,16 @@ class AdminPage extends Component {
       return confession._id !== event.target.value;
     });
 
-    this.setState({ confessions }, () => {
-      // fetch('/confessions', {
-      //   method: 'DELETE',
-      //   body: JSON.stringify({ _id }),
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      // });
-    });
+    this.setState({ deleteModal: true });
+    // this.setState({ confessions }, () => {
+    //   // fetch('/confessions', {
+    //   //   method: 'DELETE',
+    //   //   body: JSON.stringify({ _id }),
+    //   //   headers: {
+    //   //     'Content-Type': 'application/json'
+    //   //   },
+    //   // });
+    // });
   };
 
   handleAccess = event => {
@@ -166,6 +167,7 @@ class AdminPage extends Component {
   render() {
     return (
       <div className="admin-page">
+        {this.state.deleteModal && (null)}
         <div className="placeholder-box"/>
         <div className="entry-container">
           {this.state.access && <h1>Admin Confessions View</h1>}

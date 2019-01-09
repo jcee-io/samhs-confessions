@@ -23,8 +23,9 @@ class FormPage extends PureComponent {
       intentError: false,
       submissionError: false,
     };
+  };
 
-  onSubmit = () => {
+  onSubmit = (event) => {
     const {
       allowComments,
       readTW,
@@ -33,6 +34,12 @@ class FormPage extends PureComponent {
       submission,
     } = this.state;
 
+    event.preventDefault();
+    console.log(      allowComments,
+          readTW,
+          allTW,
+          intent,
+          submission)
     if(
       allowComments === null ||
       readTW === null ||
@@ -166,16 +173,16 @@ class FormPage extends PureComponent {
         <div className={`allow-comments radio`}>
               <h2>Would you like commenting to be allowed?</h2>
               <div onChange={this.handleAllowCommenting} className={`row text-center`}>
-                  <div className={`col-md-6`}>
+                  <div className={`col-md-6 col-sm-6`}>
                       <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
-                                 id="yesRadio" value="yes"/> Yes
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions1"
+                                 id="yesRadio" value="yes"/><span className="labeltext">Yes</span>
                       </label>
                   </div>
-                  <div className={`col-mmd-6`}>
+                  <div className={`col-md-6 col-sm-6`}>
                       <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
-                                 id="noRadio" value="no"/> No
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions1"
+                                 id="noRadio" value="no"/><span className="labeltext">No</span>
                       </label>
                   </div>
               </div>
@@ -186,29 +193,29 @@ class FormPage extends PureComponent {
                   <a href={`https://goo.gl/iLPMCU`}> Link here</a>
               </h2>
               <div className={`row text-center`}>
-                  <div className={`col-md-6`}>
+                  <div className={`col-md-6 col-sm-6`}>
                       <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
-                                 id="yesRadio" value="yes"/> Yes
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions2"
+                                 id="yesRadio" value="yes"/><span className="labeltext">Yes</span>
                       </label>
                   </div>
-                  <div className={`col-mmd-6`}>
+                  <div className={`col-md-6 col-sm-6`}>
                       <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
-                                 id="noRadio" value="no"/> No
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions2"
+                                 id="noRadio" value="no"/><span className="labeltext">No</span>
                       </label>
                   </div>
               </div>
           </div>
           <div className={`tw-types form-group`}>
-            <label for="twTypesInput">
+            <label htmlFor="twTypesInput">
                 <h2>What triggers would your submission have? *</h2>
             </label>
             <input onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
           </div>
 
           <div className={ `motive-text` }>
-            <label for="motiveInput">
+            <label htmlFor="motiveInput">
                 <h2>What are you looking for? Ex: Advice, Validation, Support, Opinion. *</h2>
             </label>
             <input onChange={this.handleIntent} className="form-control" id="motiveInput"/>
@@ -228,7 +235,7 @@ class FormPage extends PureComponent {
   render() {
 
     return (
-      <main className="container">
+      <main>
         <div className="placeholder-box"/>
           {this.renderContent()}
         <div className="placeholder-box"/>
