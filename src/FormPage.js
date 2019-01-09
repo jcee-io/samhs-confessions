@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import horizontalLine from './assets/images/horizontal-line.png';
 import { NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { animateScroll as scroll } from 'react-scroll';
@@ -22,7 +23,6 @@ class FormPage extends PureComponent {
       intentError: false,
       submissionError: false,
     };
-  }
 
   onSubmit = () => {
     const {
@@ -145,63 +145,94 @@ class FormPage extends PureComponent {
 
     return (
       <div className="form-container">
-        <h1>Sad Asian Confessions Anonymous</h1>
+        <div className = "title-container text-center">
+            <h1>Sad Asian Confessions <br/>Anonymous</h1>
+            <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
+        </div>
         {hasError && this.renderErrorDiv()}
-        <h2>Submission Guidelines</h2>
+        <h2 className={`guideline-title`}>Submission Guidelines</h2>
         <p>
-        1. Submit whatever is on your mind.
-        <br />
-        2. No hateful language allowed. This is a safe and nonjudgmental space for anonymity
-        <br />
-        3. Please seek help, we have information for hotlines and the like in the Facebook group.
-        <br />
-        4. Submissions will be reviewed and posted if approved.
-        <br />
-        5. Trigger Warnings/Content Warnings will be appreciated if your posts can be triggering. For more information, please check here: https://goo.gl/iLPMCU
+          1. Submit whatever is on your mind.
+          <br />
+          2. No hateful language allowed. This is a safe and nonjudgmental space for anonymity
+          <br />
+          3. Please seek help, we have information for hotlines and the like in the Facebook group.
+          <br />
+          4. Submissions will be reviewed and posted if approved.
+          <br />
+          5. Trigger Warnings/Content Warnings will be appreciated if your posts can be triggering. For more information, please check here: https://goo.gl/iLPMCU
         </p>
-        <div className="allow-comments">
-          <h2>Would you like commenting to be allowed?*</h2>
-          <div onChange={this.handleAllowCommenting} className="radio-button-container">
-            <span><input value="yes" type="radio" name="comments" /> Yes</span>
-            <span><input value="no" type="radio" name="comments" /> No</span>
+      <form>
+        <div className={`allow-comments radio`}>
+              <h2>Would you like commenting to be allowed?</h2>
+              <div onChange={this.handleAllowCommenting} className={`row text-center`}>
+                  <div className={`col-md-6`}>
+                      <label className="radio-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
+                                 id="yesRadio" value="yes"/> Yes
+                      </label>
+                  </div>
+                  <div className={`col-mmd-6`}>
+                      <label className="radio-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
+                                 id="noRadio" value="no"/> No
+                      </label>
+                  </div>
+              </div>
           </div>
-        </div>
-        <div className="tw-docs">
-          <h2>
-            Have you read the document on Trigger Warnings?*
-          </h2>
-          <a href="https://goo.gl/iLPMCU" target="_blank">Link to document on trigger warnings</a>
-          <div onChange={this.handleTWDocs} className="radio-button-container">
-            <span><input value="yes" type="radio" name="read-tw" /> Yes</span>
-            <span><input value="no" type="radio" name="read-tw" /> No</span>
+          <div onChange={this.handleTWDocs} className={`tw-docs form-group`}>
+              <h2>
+                  Have you read the document on Trigger Warnings?
+                  <a href={`https://goo.gl/iLPMCU`}> Link here</a>
+              </h2>
+              <div className={`row text-center`}>
+                  <div className={`col-md-6`}>
+                      <label className="radio-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
+                                 id="yesRadio" value="yes"/> Yes
+                      </label>
+                  </div>
+                  <div className={`col-mmd-6`}>
+                      <label className="radio-inline">
+                          <input className="form-check-input" type="radio" name="inlineRadioOptions"
+                                 id="noRadio" value="no"/> No
+                      </label>
+                  </div>
+              </div>
           </div>
-        </div>
-        <div className="tw-types">
-          <h2>What kind of trigger/content warnings would your submission have? *</h2>
-          <input onChange={this.handleTriggers} className="text-input" />
-        </div>
-        <div className="motive-text">
-          <h2>What are you looking for? Ex: Advice, Validation, Support, Opinion. *</h2>
-          <input onChange={this.handleIntent} className="text-input" />
-        </div>
-        <div className="submission">
-          <h2>Submission *</h2>
-          <textarea onChange={this.handleSubmission} rows="15">
-          </textarea>
-        </div>
+          <div className={`tw-types form-group`}>
+            <label for="twTypesInput">
+                <h2>What triggers would your submission have? *</h2>
+            </label>
+            <input onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
+          </div>
 
-        <button onClick={this.onSubmit}>Submit</button>
+          <div className={ `motive-text` }>
+            <label for="motiveInput">
+                <h2>What are you looking for? Ex: Advice, Validation, Support, Opinion. *</h2>
+            </label>
+            <input onChange={this.handleIntent} className="form-control" id="motiveInput"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="submissionInput">
+                <h2>Submission *</h2>
+            </label>
+            <textarea onChange={this.handleSubmission} className="form-control" id="submissionInput" rows="15"></textarea>
+          </div>
+
+          <button className={'btn btn-success btn-block'} onClick={this.onSubmit}>Submit</button>
+        </form>
       </div>
     );
   };
   render() {
 
     return (
-      <div className="form-page">
+      <main className="container">
         <div className="placeholder-box"/>
           {this.renderContent()}
         <div className="placeholder-box"/>
-      </div>
+      </main>
     );
   }
 };

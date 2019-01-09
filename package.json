@@ -7,6 +7,7 @@
     "capitalize": "^2.0.0",
     "number-to-words": "^1.2.4",
     "react": "^16.7.0",
+    "react-bootstrap": "^0.32.4",
     "react-clipboard.js": "^2.0.2",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
