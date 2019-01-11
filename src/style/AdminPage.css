@@ -26,6 +26,19 @@
   font-size: 1em;
 }
 
+.entry-container .upper-h2 {
+  text-align: center;
+  transform: translateY(-1.4em);
+}
+
+.entry-container .upper-h2-header {
+  font-size: 2em;
+}
+
+.entry-container .upper-h2-content {
+  font-size: 1.3em;
+  transform: translateY(-3em);
+}
 .entry-container textarea {
   display: block;
   margin: 0 auto;
@@ -35,11 +48,14 @@
 .entry-container .button-row {
   width: 100%;
   text-align: center;
+  display: flex;
+  padding: 0 4.3em;
 }
 
 .entry-container .button-row button {
-  width: 43.78%;
+  width: 33.33%;
   padding: 0.5em 0;
+  margin: 0 auto;
 }
 
 .entry-container .button-row .clipboard {

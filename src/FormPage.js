@@ -70,6 +70,7 @@ class FormPage extends PureComponent {
         allTW,
         intent,
         submission,
+        isHidden: false,
       }),
       headers:{
         'Content-Type': 'application/json'
