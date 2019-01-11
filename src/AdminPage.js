@@ -29,7 +29,7 @@ class AdminPage extends Component {
       page: 1,
       access: this.match,
       flipOrder: false,
-      hidePosted: false,
+      hidePosted: true,
     };
   };
 
@@ -136,7 +136,7 @@ class AdminPage extends Component {
 
     fetch('/confessions', {
       method: 'PUT',
-      body: JSON.stringify({ action }),
+      body: JSON.stringify({ _id: confession._id, action }),
       headers:{
         'Content-Type': 'application/json'
       },
@@ -236,7 +236,7 @@ class AdminPage extends Component {
               </h2>
               <div className="button-row">
                 <button onClick={this.handleFlipOrder} className="btn btn-success">Reverse Order</button>
-                <button onClick={this.togglePosted} className="btn btn-warning">Hide All Posted</button>
+                <button onClick={this.togglePosted} className="btn btn-warning">{hidePosted ? 'Show Posted' : 'Hide Posted'}</button>
               </div>
             </div>
           )}
