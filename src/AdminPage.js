@@ -243,6 +243,10 @@ class AdminPage extends Component {
       return confession._id !== this.state.savedID;
     });
 
+    confessions.forEach((confession, index) => {
+      confession.index = index;
+    });
+
     this.setState({ confessions, deleteModal: false, savedID: null, savedIndex: null }, () => {
       fetch('/confessions', {
         method: 'DELETE',
