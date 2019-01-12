@@ -24,3 +24,9 @@
 .App-link {
   color: #61dafb;
 }
+
+@media only screen and (max-width: 1140px) {
+  .App {
+    height: 100%;
+  }
+}

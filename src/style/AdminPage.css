@@ -11,6 +11,36 @@
   height: 40px;
 }
 
+.delete-modal-container {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  z-index: 1;
+  text-align: center;
+  padding: 25em 0 0 0;
+}
+
+.delete-modal-container .delete-modal {
+  height: 32em;
+  width: 55em;
+  background-color: whitesmoke;
+  display: inline-block;
+}
+
+.delete-modal-container .delete-modal .delete-input {
+  font-size: 2em;
+}
+.delete-modal-container .delete-modal .button-row {
+  margin-top: 3em;
+}
+
+.delete-modal-container .delete-modal .button-row button {
+  width: 30%;
+  margin: 0 2em;
+  transform: scale(1.1);
+}
+
 .entry-container {
   min-height: 90%;
   width: 100%;
@@ -81,13 +111,18 @@
 }
 
 .access-input {
-  width: 25%;
+  width: 10em;
   font-size: 2em;
+  display: block;
+  margin: 0 auto;
 }
 
 .remember-row {
+  width: 10em;
   display: block;
   font-size: 1.5em;
+  margin: 0 auto;
+  text-align: center;
 }
 .remember-row input {
   transform: scale(1.5);
@@ -95,13 +130,15 @@
 @media only screen and (max-width: 1140px) {
   .admin-page {
     width: 100%;
+    height: 100%;
     max-width: none;
   }
-
   .entry-container {
-
+    height: 100%;
+    padding-bottom: 0;
   }
   .placeholder-box {
     height: 0;
+    width: 0;
   }
 }

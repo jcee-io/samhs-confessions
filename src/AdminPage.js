@@ -30,6 +30,8 @@ class AdminPage extends Component {
       access: this.match,
       flipOrder: false,
       hidePosted: true,
+      savedID: null,
+      savedIndex: null,
     };
   };
 
@@ -56,17 +58,17 @@ class AdminPage extends Component {
   }
 
   handleDelete = event => {
-    let _id;
-
+    let _id, index;
     const confessions = [...this.state.confessions].filter(confession => {
       if(confession._id == event.target.value) {
         _id = confession._id;
+        index = confession.index;
       }
 
       return confession._id !== event.target.value;
     });
 
-    this.setState({ deleteModal: true });
+    this.setState({ deleteModal: true, savedID: _id, savedIndex: index });
     // this.setState({ confessions }, () => {
     //   // fetch('/confessions', {
     //   //   method: 'DELETE',
@@ -205,6 +207,69 @@ class AdminPage extends Component {
     this.setState({ flipOrder: !this.state.flipOrder });
   };
 
+  handleDeleteModalClick = event => {
+    switch(event.target.className) {
+      case 'delete-modal-container':
+      case 'btn btn-warning':
+        this.setState({ deleteModal: false, savedID: null, savedIndex: null });
+        break;
+      case 'btn btn-danger':
+        this.handleDeleteClickOnModal();
+        break;
+      default:
+        break;
+    };
+  };
+
+  onDeleteModalKeyDown = event => {
+    const { keyCode } = event;
+    if(keyCode !== 13) return null;
+
+    this.handleDeleteClickOnModal();
+  };
+
+  handleDeleteClickOnModal = () => {
+    const hash = localStorage.getItem('access');
+    let _id;
+
+    if(!compareSync(this.refs.deleteModalInput.value, hash)) return;
+
+
+    const confessions = [...this.state.confessions].filter(confession => {
+      if(confession._id == this.state.savedID) {
+        _id = confession._id;
+      }
+
+      return confession._id !== this.state.savedID;
+    });
+
+    this.setState({ confessions, deleteModal: false, savedID: null, savedIndex: null }, () => {
+      fetch('/confessions', {
+        method: 'DELETE',
+        body: JSON.stringify({ _id }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+    });
+  };
+
+  renderDeleteModal = () => {
+    return (
+      <div onClick={this.handleDeleteModalClick} className="delete-modal-container">
+        <div className="delete-modal">
+          <h1>CAUTION: You are deleting a confession</h1>
+          <h2>Entry: {capitalize(toWords(this.state.savedIndex + 159))}</h2>
+          <h2>Please Enter password to confirm delete</h2>
+          <input type="password" ref="deleteModalInput" onKeyDown={this.onDeleteModalKeyDown} className="delete-input"/>
+          <div className="button-row">
+            <button className="btn btn-warning">Back</button>
+            <button className="btn btn-danger">Confirm</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
   render() {
 
     const {
@@ -216,34 +281,36 @@ class AdminPage extends Component {
     } = this.state;
 
     return (
-      <div className="admin-page">
-        {deleteModal && (null)}
-        <div className="placeholder-box"/>
-        <div className="entry-container">
-          {access && (
-            <div className = "title-container text-center">
-                <h1>Admin Confessions View</h1>
-                <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
-            </div>
-          )}
-          {access && (
-            <div>
-              <h2 className="upper-h2 upper-h2-header">Confessions Status</h2>
-              <h2 className="upper-h2 upper-h2-content">
-                Order Viewed: {flipOrder ? 'Reverse Chronological' : 'Chronological'}
-                <br />
-                Approved Posts: {hidePosted ? 'Hidden' : 'Visible'}
-              </h2>
-              <div className="button-row">
-                <button onClick={this.handleFlipOrder} className="btn btn-success">Reverse Order</button>
-                <button onClick={this.togglePosted} className="btn btn-warning">{hidePosted ? 'Show Posted' : 'Hide Posted'}</button>
+      <div>
+        {deleteModal && this.renderDeleteModal()}
+        <div className="admin-page">
+          <div className="placeholder-box"/>
+          <div className="entry-container">
+            {access && (
+              <div className = "title-container text-center">
+                  <h1>Admin Confessions View</h1>
+                  <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
               </div>
-            </div>
-          )}
-          {access && this.renderConfessions().slice(0, 10 * page)}
-          {!access && this.renderPasswordInput()}
+            )}
+            {access && (
+              <div>
+                <h2 className="upper-h2 upper-h2-header">Confessions Status</h2>
+                <h2 className="upper-h2 upper-h2-content">
+                  Order Viewed: {flipOrder ? 'Reverse Chronological' : 'Chronological'}
+                  <br />
+                  Approved Posts: {hidePosted ? 'Hidden' : 'Visible'}
+                </h2>
+                <div className="button-row">
+                  <button onClick={this.handleFlipOrder} className="btn btn-success">Reverse Order</button>
+                  <button onClick={this.togglePosted} className="btn btn-warning">{hidePosted ? 'Show Posted' : 'Hide Posted'}</button>
+                </div>
+              </div>
+            )}
+            {access && this.renderConfessions().slice(0, 10 * page)}
+            {!access && this.renderPasswordInput()}
+          </div>
+          <div className="placeholder-box"/>
         </div>
-        <div className="placeholder-box"/>
       </div>
     );
   }
