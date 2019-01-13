@@ -76,10 +76,10 @@
 }
 
 .entry-container .button-row {
-  width: 100%;
+  width: 87.5%;
   text-align: center;
   display: flex;
-  padding: 0 4.3em;
+  margin: 0 auto;
 }
 
 .entry-container .button-row button {

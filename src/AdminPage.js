@@ -186,13 +186,13 @@ class AdminPage extends Component {
           </button>
         </div>
       </div>);
-    });
+    }).filter(node => !!node);
 
     return flipOrder ? mappedConfessions : mappedConfessions.reverse();
   };
 
   isBottom = (el) => {
-    return el.getBoundingClientRect().bottom <= window.innerHeight;
+    return Math.floor(el.getBoundingClientRect().bottom) <= window.innerHeight;
   };
 
   trackScrolling = () => {
@@ -300,7 +300,7 @@ class AdminPage extends Component {
               <div>
                 <h2 className="upper-h2 upper-h2-header">Confessions Status</h2>
                 <h2 className="upper-h2 upper-h2-content">
-                  Order Viewed: {flipOrder ? 'Reverse Chronological' : 'Chronological'}
+                  Order Viewed: {flipOrder ? 'Chronological' : 'Reverse Chronological'}
                   <br />
                   Approved Posts: {hidePosted ? 'Hidden' : 'Visible'}
                 </h2>
