@@ -3,6 +3,7 @@ import horizontalLine from './assets/images/horizontal-line.png';
 import { NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { animateScroll as scroll } from 'react-scroll';
+import { isEmail, isURL } from 'validator';
 
 import './style/FormPage.css';
 
@@ -15,6 +16,8 @@ class FormPage extends PureComponent {
       allTW: '',
       intent: '',
       submission: '',
+      email: '',
+      facebookURL: '',
       isSubmitted: false,
       hasError: false,
       commentsError: false,
@@ -22,6 +25,8 @@ class FormPage extends PureComponent {
       triggerError: false,
       intentError: false,
       submissionError: false,
+      emailError: false,
+      facebookURLError: false,
     };
   };
 
@@ -32,20 +37,20 @@ class FormPage extends PureComponent {
       allTW,
       intent,
       submission,
+      email,
+      facebookURL,
     } = this.state;
 
     event.preventDefault();
-    console.log(      allowComments,
-          readTW,
-          allTW,
-          intent,
-          submission)
+
     if(
       allowComments === null ||
       readTW === null ||
       !allTW || allTW === '' ||
       !intent || intent === '' ||
-      !submission || submission === ''
+      !submission || submission === '' ||
+      (email && email !== '' && !isEmail(email)) ||
+      (facebookURL && facebookURL !== '' && !isURL(facebookURL))
     ) {
       this.setState({
         hasError: true,
@@ -53,7 +58,9 @@ class FormPage extends PureComponent {
         docsError: readTW === null,
         triggerError: !allTW,
         intentError: !intent,
-        submissionError: !submission
+        submissionError: !submission,
+        emailError: email && email !== '' && !isEmail(email),
+        facebookURLError: facebookURL && facebookURL !== '' && !isURL(facebookURL),
       }, () => {
         scroll.scrollToTop();
       });
@@ -70,6 +77,8 @@ class FormPage extends PureComponent {
         allTW,
         intent,
         submission,
+        email,
+        facebookURL,
         isHidden: false,
       }),
       headers:{
@@ -100,6 +109,14 @@ class FormPage extends PureComponent {
     this.setState({ submission: event.target.value, submissionError: false });
   };
 
+  handleEmail = event => {
+    this.setState({ email: event.target.value, emailError: false });
+  };
+
+  handleFacebookURL = event => {
+    this.setState({ facebookURL: event.target.value, facebookURLError: false });
+  };
+
   returnToHome = () => {
     this.setState({ isSubmitted: false });
   };
@@ -110,24 +127,32 @@ class FormPage extends PureComponent {
       docsError,
       triggerError,
       intentError,
-      submissionError
+      submissionError,
+      emailError,
+      facebookURLError,
     } = this.state;
 
-    if(
+    const requiredErrors =
       commentsError ||
       docsError ||
       triggerError ||
       intentError ||
-      submissionError
-    ) {
+      submissionError;
+
+    const optionalErrors = emailError || facebookURLError;
+
+    if(requiredErrors || optionalErrors) {
       return (
         <div className="error-box">
-          <h2>ERROR: One or more required fields were not filled out</h2>
+          {requiredErrors && <h2>ERROR: Required fields were not filled out</h2>}
           {commentsError && <p>- Allowing Comments</p>}
           {docsError && <p>- Reading the document on Trigger Warnings</p>}
           {triggerError && <p>- Trigger and content warnings</p>}
           {intentError && <p>- Intent/Looking for/Seeking field</p>}
           {submissionError && <p>- Submission form</p>}
+          {optionalErrors && <h2>ERROR: Invalid email/url on optional fields</h2>}
+          {emailError && <p>- Invalid email</p>}
+          {facebookURLError && <p>- Invalid Facebook URL</p>}
         </div>
       )
     }
@@ -222,12 +247,27 @@ class FormPage extends PureComponent {
             <input onChange={this.handleIntent} className="form-control" id="motiveInput"/>
           </div>
           <div className="form-group">
+            <label>
+              <h2>OPTIONAL: Email Address</h2>
+            </label>
+            <input onChange={this.handleEmail} className="form-control" />
+          </div>
+          <div className="form-group">
+            <label>
+              <h2>OPTIONAL: Facebook URL</h2>
+            </label>
+            <input onChange={this.handleFacebookURL} className="form-control" />
+          </div>
+          <p>
+            **Optional fields are intended for the occasion of interest in being reached out for direct support and assistance.
+              Concealing your identity is guaranteed to be secure and of utmost importance.
+          </p>
+          <div className="form-group">
             <label htmlFor="submissionInput">
                 <h2>Submission *</h2>
             </label>
             <textarea onChange={this.handleSubmission} className="form-control" id="submissionInput" rows="15"></textarea>
           </div>
-
           <button className={'btn btn-success btn-block'} onClick={this.onSubmit}>Submit</button>
         </form>
       </div>
