@@ -4,20 +4,32 @@ import { toWords } from 'number-to-words';
 import { words as capitalize } from 'capitalize';
 import Clipboard from 'react-clipboard.js';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
-import adminpass from './adminpass';
+import adminpass from './keychain/adminpass';
+import secretpass from './keychain/secretpass';
 import horizontalLine from './assets/images/horizontal-line.png';
 
 class AdminPage extends Component {
   constructor() {
     super();
     this.hash = localStorage.getItem('access');
+    this.secrethash = localStorage.getItem('secretaccess');
     this.match = false;
+    this.secret = false;
 
     if(this.hash) {
       this.match = compareSync(adminpass, this.hash);
 
+      if(this.secrethash) {
+        this.secret = compareSync(secretpass, this.secrethash);
+      }
+
+
       if(!this.match) {
         localStorage.removeItem('access');
+      }
+
+      if(!this.secret) {
+        localStorage.removeItem('secretaccess');
       }
     }
 
@@ -28,6 +40,7 @@ class AdminPage extends Component {
       confessions: [],
       page: 1,
       access: this.match,
+      secretaccess: this.secret,
       flipOrder: false,
       hidePosted: true,
       savedID: null,
@@ -87,12 +100,19 @@ class AdminPage extends Component {
 
     const isChecked = rememberBox.checked;
 
-    if(accessInput.value === adminpass) {
+    if(accessInput.value === adminpass || accessInput.value === secretpass) {
       this.setState({ access: true }, () => {
         if(isChecked) {
           const salt = genSaltSync(10);
           const hash = hashSync(adminpass, salt);
 
+          if(accessInput.value === secretpass) {
+            const secrethash = hashSync(secretpass, salt);
+
+            localStorage.setItem('secretaccess', secrethash);
+
+            this.setState({ secretaccess: true });
+          }
           localStorage.setItem('access', hash);
         }
 
@@ -145,8 +165,15 @@ class AdminPage extends Component {
     });
   };
 
+  handleRevealClick = event => {
+    if(event.target.className === 'reveal-link reveal-email') {
+      // fetch email
+    } else {
+      //fetch facebook url
+    }
+  };
   renderConfessions = () => {
-    const { confessions, flipOrder } = this.state;
+    const { confessions, flipOrder, secretaccess } = this.state;
 
     if(!confessions || !confessions.length) {
       return [
@@ -167,6 +194,8 @@ class AdminPage extends Component {
         <h2>Marked as Posted?: {confession.isHidden ? 'Yes' : 'No'}</h2>
         <h2>Commenting Allowed? {confession.allowComments ? 'Yes' : 'No'}</h2>
         <h2>Read Trigger Warning? {confession.readTW ? 'Yes' : 'No'}</h2>
+        {this.secret && secretaccess && <h2>Email: {confession.email || <span onClick={this.handleRevealClick} className="reveal-link reveal-email">[Click to reveal]</span>}</h2>}
+        {this.secret && secretaccess && <h2>Facebook URL: {confession.facebookURL || <span onClick={this.handleRevealClick} className="reveal-link reveal-facebookURL">[Click to reveal]</span>}</h2>}
         <h2>Submission:</h2>
         <textarea
           id={confession._id}

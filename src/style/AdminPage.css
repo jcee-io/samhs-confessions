@@ -127,6 +127,11 @@
 .remember-row input {
   transform: scale(1.5);
 }
+
+.confession .reveal-link {
+  color: #337ab7;
+  cursor: pointer;
+}
 @media only screen and (max-width: 1140px) {
   .admin-page {
     width: 100%;
