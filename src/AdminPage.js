@@ -4,43 +4,17 @@ import { toWords } from 'number-to-words';
 import { words as capitalize } from 'capitalize';
 import Clipboard from 'react-clipboard.js';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
-import adminpass from './keychain/adminpass';
-import secretpass from './keychain/secretpass';
 import horizontalLine from './assets/images/horizontal-line.png';
 
 class AdminPage extends Component {
   constructor() {
     super();
-    this.hash = localStorage.getItem('access');
-    this.secrethash = localStorage.getItem('secretaccess');
-    this.match = false;
-    this.secret = false;
-
-    if(this.hash) {
-      this.match = compareSync(adminpass, this.hash);
-
-      if(this.secrethash) {
-        this.secret = compareSync(secretpass, this.secrethash);
-      }
-
-
-      if(!this.match) {
-        localStorage.removeItem('access');
-      }
-
-      if(!this.secret) {
-        localStorage.removeItem('secretaccess');
-      }
-    }
-
-
-
 
     this.state = {
       confessions: [],
       page: 1,
-      access: this.match,
-      secretaccess: this.secret,
+      access: false,
+      secretaccess: false,
       flipOrder: false,
       hidePosted: true,
       savedID: null,
@@ -48,9 +22,32 @@ class AdminPage extends Component {
     };
   };
 
-  componentDidMount() {
-    if(this.match) {
-      fetch('/api/confessions')
+  async componentDidMount() {
+
+    this.hash = localStorage.getItem('access');
+    this.secrethash = localStorage.getItem('secretaccess');
+    this.match = false;
+    this.secret = false;
+
+    if(!this.hash && this.secrethash) return;
+
+    const res = await fetch(`/auth/team?user=${this.secrethash ? 'admin' : 'team'}&password=${this.secrethash || this.hash}`);
+    const { auth: hasAccess } = await res.json();
+
+    if(hasAccess) {
+      this.setState({ access: true, secretaccess: !!this.secrethash });
+
+      this.secret = !!this.secrethash;
+    } else {
+      localStorage.removeItem('access');
+      localStorage.removeItem('secretaccess');
+
+      this.hash = null;
+      this.secrethash = null;
+    }
+
+    if(hasAccess) {
+      fetch(`/api/confessions?key=${this.hash}`)
         .then(res => res.json())
         .then(confessions => {
           if(!confessions.error) {
@@ -82,53 +79,46 @@ class AdminPage extends Component {
     });
 
     this.setState({ deleteModal: true, savedID: _id, savedIndex: index });
-    // this.setState({ confessions }, () => {
-    //   // fetch('/confessions', {
-    //   //   method: 'DELETE',
-    //   //   body: JSON.stringify({ _id }),
-    //   //   headers: {
-    //   //     'Content-Type': 'application/json'
-    //   //   },
-    //   // });
-    // });
   };
 
-  handleAccess = event => {
+  handleAccess = async (event) => {
     if(event.keyCode !== 13) return;
     const accessInput = document.querySelector('.access-input');
     const rememberBox = accessInput.nextSibling.childNodes[0];
 
     const isChecked = rememberBox.checked;
 
-    if(accessInput.value === adminpass || accessInput.value === secretpass) {
-      this.setState({ access: true }, () => {
-        if(isChecked) {
-          const salt = genSaltSync(10);
-          const hash = hashSync(adminpass, salt);
+    const salt = genSaltSync(10);
+    const hash = hashSync(accessInput.value, salt);
 
-          if(accessInput.value === secretpass) {
-            const secrethash = hashSync(secretpass, salt);
+    const res = await fetch(`/auth/teamInitial?password=${accessInput.value}`);
+    const { auth, user } = await res.json();
 
-            localStorage.setItem('secretaccess', secrethash);
+    if(auth) {
+      this.setState({ access: true, secretaccess: user === 'admin' });
+      this.secret = user === 'admin';
+      if(isChecked) {
+        if(user === 'admin') {
 
-            this.setState({ secretaccess: true });
-          }
-          localStorage.setItem('access', hash);
+          localStorage.setItem('secretaccess', hash);
         }
 
+        localStorage.setItem('access', hash);
+      }
 
-        fetch('/api/confessions')
-          .then(res => res.json())
-          .then(confessions => {
-            if(!confessions.error) {
-              confessions.forEach((confession, index) => {
-                confession.index = index;
-              });
 
-              this.setState({ confessions });
-            }
-          });
-      });
+      fetch(`/api/confessions?key=${hash}`)
+        .then(res => res.json())
+        .then(confessions => {
+          if(!confessions.error) {
+            confessions.forEach((confession, index) => {
+              confession.index = index;
+            });
+
+            this.setState({ confessions });
+          }
+        });
+
     }
   };
 
@@ -165,12 +155,41 @@ class AdminPage extends Component {
     });
   };
 
-  handleRevealClick = event => {
+  handleRevealClick = (event, _id)=> {
+    let item = null;
+    const secretaccess = localStorage.getItem('secretaccess');
+
     if(event.target.className === 'reveal-link reveal-email') {
-      // fetch email
+      item = 'email';
     } else {
-      //fetch facebook url
+      item = 'facebookURL';
     }
+
+    fetch(`/contact?item=${item}&secretaccess=${secretaccess}&confessionId=${_id}`, {
+      mode: 'cors',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json())
+      .then(resItem => {
+        const { confessions } = this.state;
+
+        for(let confession of confessions) {
+          if(confession._id === _id) {
+            if((!confession.email || confession.email === '') && item === 'email') {
+              confession.email = resItem.email || 'No email found';
+            }
+
+            if((!confession.facebookURL || confession.facebookURL === '') && item === 'facebookURL') {
+              confession.facebookURL = resItem.facebookURL || 'No URL found';
+            }
+
+          }
+        }
+
+        this.setState({ confessions });
+      });
   };
   renderConfessions = () => {
     const { confessions, flipOrder, secretaccess } = this.state;
@@ -194,8 +213,8 @@ class AdminPage extends Component {
         <h2>Marked as Posted?: {confession.isHidden ? 'Yes' : 'No'}</h2>
         <h2>Commenting Allowed? {confession.allowComments ? 'Yes' : 'No'}</h2>
         <h2>Read Trigger Warning? {confession.readTW ? 'Yes' : 'No'}</h2>
-        {this.secret && secretaccess && <h2>Email: {confession.email || <span onClick={this.handleRevealClick} className="reveal-link reveal-email">[Click to reveal]</span>}</h2>}
-        {this.secret && secretaccess && <h2>Facebook URL: {confession.facebookURL || <span onClick={this.handleRevealClick} className="reveal-link reveal-facebookURL">[Click to reveal]</span>}</h2>}
+        {this.secret && secretaccess && confession.hasEmail && <h2>Email: {confession.email || <span onClick={event => this.handleRevealClick(event, confession._id)} className="reveal-link reveal-email">[Click to reveal]</span>}</h2>}
+        {this.secret && secretaccess && confession.hasFacebookURL && <h2>Facebook URL: {confession.facebookURL || <span onClick={event => this.handleRevealClick(event, confession._id)} className="reveal-link reveal-facebookURL">[Click to reveal]</span>}</h2>}
         <h2>Submission:</h2>
         <textarea
           id={confession._id}
@@ -308,6 +327,7 @@ class AdminPage extends Component {
     const {
       deleteModal,
       access,
+      secretaccess,
       page,
       flipOrder,
       hidePosted,
@@ -321,7 +341,7 @@ class AdminPage extends Component {
           <div className="entry-container">
             {access && (
               <div className = "title-container text-center">
-                  <h1>Admin Confessions View</h1>
+                  <h1>{secretaccess ? 'Admin' : 'Team'} Confessions View</h1>
                   <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
               </div>
             )}
