@@ -189,4 +189,15 @@ input[type='radio'] {
   .placeholder-box {
     height: 0;
   }
+
+  form {
+    width: 36em;
+    max-width: none;
+  }
+}
+
+@media only screen and (max-width: 585px) {
+  form {
+    width: 100%;
+  }
 }
