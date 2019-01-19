@@ -89,12 +89,13 @@ class FormPage extends PureComponent {
   };
 
   handleTWDocs = event => {
-    const readTW = event.target.value === 'yes';
-    this.setState({ readTW, docsError: false });
+    this.setState({ readTW: event.target.checked, docsError: false });
   };
 
   handleAllowCommenting = event => {
-    const allowComments = event.target.value === 'yes';
+    event.preventDefault();
+
+    const allowComments = event.target.textContent === 'Yes';
     this.setState({ allowComments, commentsError: false });
   }
 
@@ -164,6 +165,7 @@ class FormPage extends PureComponent {
     const {
       isSubmitted,
       hasError,
+      allowComments,
     } = this.state;
 
     if(isSubmitted) {
@@ -179,94 +181,82 @@ class FormPage extends PureComponent {
     return (
       <div className="form-container">
         <div className = "title-container text-center">
-            <h1>Sad Asian Confessions <br/>Anonymous</h1>
-            <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
+            <h1 className="page-heading">Sad Asian Confessions</h1>
+            <h2 className="other">Anonymous Submission Form</h2>
         </div>
         {hasError && this.renderErrorDiv()}
-        <h2 className={`guideline-title`}>Submission Guidelines</h2>
-        <p>
-          1. Submit whatever is on your mind.
-          <br />
-          2. No hateful language allowed. This is a safe and nonjudgmental space for anonymity
-          <br />
-          3. Please seek help, we have information for hotlines and the like in the Facebook group.
-          <br />
-          4. Submissions will be reviewed and posted if approved.
-          <br />
-          5. Trigger Warnings/Content Warnings will be appreciated if your posts can be triggering. For more information, please check here: https://goo.gl/iLPMCU
-        </p>
       <form>
-        <div className={`allow-comments radio`}>
-              <h2>Would you like commenting to be allowed?</h2>
-              <div onChange={this.handleAllowCommenting} className={`row text-center`}>
-                  <div className={`col-md-6 col-sm-6`}>
-                      <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions1"
-                                 id="yesRadio" value="yes"/><span className="labeltext">Yes</span>
-                      </label>
-                  </div>
-                  <div className={`col-md-6 col-sm-6`}>
-                      <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions1"
-                                 id="noRadio" value="no"/><span className="labeltext">No</span>
-                      </label>
-                  </div>
-              </div>
-          </div>
+        <h3 className="section-heading">Guidelines</h3>
+        <h4 className="body-copy-light">Please read these before typing up your submission.</h4>
+        <ol className="body-copy guidelines-body">
+          <h5>
+            <li>Submit whatever is on your mind.</li>
+            <li>No hateful language allowed.</li>
+            <li>Please seek help, we have information for hotlines and the like in the Facebook group.</li>
+            <li>Submissions will be reviewed and posted if approved.</li>
+            <li>Please include Content Warnings or Trigger Warnings if applicable. For more information, please check out our guide here. (<a target="_blank" href="https://goo.gl/iLPMCU">link</a>)</li>
+          </h5>
+        </ol>
+          <h3 className="section-heading">Submission</h3>
+          <h4 className="body-copy-light">Please fill out all fields.</h4>
           <div onChange={this.handleTWDocs} className={`tw-docs form-group`}>
-              <h2>
-                  Have you read the document on Trigger Warnings?
-                  <a href={`https://goo.gl/iLPMCU`}> Link here</a>
-              </h2>
-              <div className={`row text-center`}>
-                  <div className={`col-md-6 col-sm-6`}>
-                      <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions2"
-                                 id="yesRadio" value="yes"/><span className="labeltext">Yes</span>
-                      </label>
-                  </div>
-                  <div className={`col-md-6 col-sm-6`}>
-                      <label className="radio-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions2"
-                                 id="noRadio" value="no"/><span className="labeltext">No</span>
+              <h4 className="questions">
+                  Please read the document on Content Warnings and Trigger Warnings
+                  (<a target="_blank" href={`https://goo.gl/iLPMCU`}>link</a>)
+                  and understand that you must include them if necessary
+              </h4>
+              <div className={`row twdocs-row`}>
+                  <div>
+                      <label className="checkbox-inline">
+                          <input className="form-check-input checkbox" type="checkbox" />
+                          <h5 className="labeltext body-copy">
+                            I have read and understood the use of content and trigger warnings
+                          </h5>
                       </label>
                   </div>
               </div>
           </div>
           <div className={`tw-types form-group`}>
-            <label htmlFor="twTypesInput">
-                <h2>What triggers would your submission have? *</h2>
+            <label htmlFor="questions twTypesInput">
+                <h4>Do you have any content or trigger warnings you’d like to include?</h4>
             </label>
-            <input onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
-          </div>
-
-          <div className={ `motive-text` }>
-            <label htmlFor="motiveInput">
-                <h2>What are you looking for? Ex: Advice, Validation, Support, Opinion. *</h2>
-            </label>
-            <input onChange={this.handleIntent} className="form-control" id="motiveInput"/>
+            <input placeholder="racism, self-harm" onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
           </div>
           <div className="form-group">
-            <label>
-              <h2>OPTIONAL: Email Address</h2>
+            <label htmlFor="questions submissionInput">
+                <h4>Your Submission</h4>
             </label>
-            <input onChange={this.handleEmail} className="form-control" />
+            <textarea placeholder="Share your story" onChange={this.handleSubmission} className="form-control" id="submissionInput" rows="15"></textarea>
+          </div>
+          <div className={ `motive-text form-group` }>
+            <label htmlFor="questions motiveInput">
+                <h4>Are you looking for any particular type of support?</h4>
+            </label>
+            <input placeholder="advice, validation, opinions, general support" onChange={this.handleIntent} className="form-control" id="motiveInput"/>
+          </div>
+          <div className={`questions allow-comments radio form-group`}>
+            <h4>Would you like commenting to be allowed?</h4>
+            <div onClick={this.handleAllowCommenting} className={`row row-buttons text-center`}>
+              <button value="yes" className={`btn allow-comments-button allow-comments-button-yes ${!!allowComments ? 'allow-comments-button-selected' : ''}`}><h4>Yes</h4></button>
+              <button value="no" className={`btn allow-comments-button allow-comments-button-no ${!allowComments && allowComments !== null? 'allow-comments-button-selected' : ''}`}><h4>No</h4></button>
+            </div>
+          </div>
+          <h3 className="section-heading">Contact Information (Optional)</h3>
+          <h4 className="body-copy-light">
+            Optional fields are intended for the occasion of interest in being reached out for direct support and assistance.
+            Concealing your identity is guaranteed to be secure and of utmost importance.
+          </h4>
+          <div className="form-group">
+            <label className="questions">
+              <h4>Email Address</h4>
+            </label>
+            <input placeholder="hisamhs@example.com" onChange={this.handleEmail} className="form-control" />
           </div>
           <div className="form-group">
-            <label>
-              <h2>OPTIONAL: Facebook URL</h2>
+            <label className="questions">
+              <h4>Facebook URL</h4>
             </label>
-            <input onChange={this.handleFacebookURL} className="form-control" />
-          </div>
-          <p>
-            **Optional fields are intended for the occasion of interest in being reached out for direct support and assistance.
-              Concealing your identity is guaranteed to be secure and of utmost importance.
-          </p>
-          <div className="form-group">
-            <label htmlFor="submissionInput">
-                <h2>Submission *</h2>
-            </label>
-            <textarea onChange={this.handleSubmission} className="form-control" id="submissionInput" rows="15"></textarea>
+            <input placeholder="https://www.facebook.com/samhs33449" onChange={this.handleFacebookURL} className="form-control" />
           </div>
           <button className={'btn btn-success btn-block'} onClick={this.onSubmit}>Submit</button>
         </form>
