@@ -30,6 +30,25 @@ class FormPage extends PureComponent {
     };
   };
 
+  formatInputsWithCheckBox = (checklist, field) => {
+    const checklistItems = [];
+
+    checklist.childNodes.forEach(node => {
+      const textNode = node.querySelector('h5');
+
+      if(textNode.previousSibling.checked) {
+        !textNode.textContent.includes('Others') && checklistItems.push(textNode.textContent);
+      }
+    });
+
+    let checklistString = checklistItems.join(', ');
+
+    if(field !== null && field !== '') {
+      checklistString += checklistItems.length ? ', ' + field : field;
+    }
+
+    return checklistString;
+  };
   onSubmit = (event) => {
     const {
       allowComments,
@@ -43,11 +62,14 @@ class FormPage extends PureComponent {
 
     event.preventDefault();
 
+    const twListString = this.formatInputsWithCheckBox(this.refs.TWChecklist, allTW);
+    const supportListString = this.formatInputsWithCheckBox(this.refs.supportChecklist, intent);
+
     if(
       allowComments === null ||
       readTW === null ||
-      !allTW || allTW === '' ||
-      !intent || intent === '' ||
+      !twListString || twListString === '' ||
+      !supportListString || supportListString === '' ||
       !submission || submission === '' ||
       (email && email !== '' && !isEmail(email)) ||
       (facebookURL && facebookURL !== '' && !isURL(facebookURL))
@@ -74,8 +96,8 @@ class FormPage extends PureComponent {
       body: JSON.stringify({
         allowComments,
         readTW,
-        allTW,
-        intent,
+        allTW: twListString,
+        intent: supportListString,
         submission,
         email,
         facebookURL,
@@ -100,10 +122,23 @@ class FormPage extends PureComponent {
   }
 
   handleTriggers = event => {
+
+    if(event.target.value === '' || event.target.value === null) {
+      this.refs.TWChecklistOthers.checked = false;
+    } else {
+      this.refs.TWChecklistOthers.checked = true;
+    }
+
     this.setState({ allTW: event.target.value, triggerError: false });
   };
 
   handleIntent = event => {
+    if(event.target.value === '' || event.target.value === null) {
+      this.refs.supportChecklistOthers.checked = false;
+    } else {
+      this.refs.supportChecklistOthers.checked = true;
+    }
+
     this.setState({ intent: event.target.value, intentError: false });
   };
   handleSubmission = event => {
@@ -220,7 +255,15 @@ class FormPage extends PureComponent {
             <label htmlFor="questions twTypesInput">
                 <h4>Do you have any content or trigger warnings you’d like to include?</h4>
             </label>
-            <input placeholder="racism, self-harm" onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
+            <div ref="TWChecklist" className="checklist">
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Anxiety</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Depression</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Dysfunctional Family</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Eating Disorders</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Suicide</h5></div>
+              <div className="checklist-entry"><input ref="TWChecklistOthers" type="checkbox" /><h5 className="labeltext body-copy">Others (please write below)</h5></div>
+            </div>
+            <input placeholder="e.g. racism, self-harm" onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
           </div>
           <div className="form-group">
             <label htmlFor="questions submissionInput">
@@ -232,7 +275,15 @@ class FormPage extends PureComponent {
             <label htmlFor="questions motiveInput">
                 <h4>Are you looking for any particular type of support?</h4>
             </label>
-            <input placeholder="advice, validation, opinions, general support" onChange={this.handleIntent} className="form-control" id="motiveInput"/>
+              <div ref="supportChecklist" className="checklist">
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Advice</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Opinions</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Support</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Tips</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Validation</h5></div>
+              <div className="checklist-entry"><input ref="supportChecklistOthers" type="checkbox" /><h5 className="labeltext body-copy">Others (please write below)</h5></div>
+            </div>
+            <input placeholder="e.g. stories, friendship" onChange={this.handleIntent} className="form-control" id="motiveInput"/>
           </div>
           <div className={`questions allow-comments radio form-group`}>
             <h4>Would you like commenting to be allowed?</h4>

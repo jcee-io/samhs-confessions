@@ -114,8 +114,26 @@ form {
   margin: 0;
   margin-left: 20px;
 }
+
 .checkbox-inline input[type='checkbox'] {
   transform: translateY(0.8em) scale(1.7);
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 4em;
+  width: 75%;
+}
+.checklist .checklist-entry {
+  width: auto;
+}
+.checklist .checklist-entry input {
+  transform: translateY(2px);
+}
+.checklist h5 {
+  display: inline;
 }
 
 .twdocs-row, .allow-comments {
@@ -176,6 +194,10 @@ input[type='radio'] {
   .form-container {
     width: 100%;
     max-width: none;
+  }
+
+  .checklist {
+    width: 100%;
   }
 
   main {
@@ -250,6 +272,10 @@ input[type='radio'] {
 
   .checkbox-inline input[type='checkbox'] {
     transform: translateY(calc(-0.1em + 2vw)) scale(1.2);
+  }
+
+  .checklist .checklist-entry input {
+    transform: translateY(3px) scale(0.9);
   }
 
   .questions,

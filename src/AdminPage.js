@@ -202,7 +202,7 @@ class AdminPage extends Component {
 
     const mappedConfessions = confessions.map(confession => {
       const entry = capitalize(toWords((confession.index || 0) + 159));
-      const submission = `#SubtleAsianConfession ${entry}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\nLINK: https://bit.ly/samhs-confessions\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
+      const submission = `#SubtleAsianConfession ${entry}\nTW/CW: ${confession.allTW}\nSeeking: ${confession.intent}\nLink to form: https://bit.ly/samhs-confessions\n.\n.\n.\n.\n.\n.\n.\n.\n${confession.submission}`;
 
       if(confession.isHidden && this.state.hidePosted) {
         return null;
