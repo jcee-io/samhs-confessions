@@ -180,13 +180,13 @@ class FormPage extends PureComponent {
     if(requiredErrors || optionalErrors) {
       return (
         <div className="error-box">
-          {requiredErrors && <h2>ERROR: Required fields were not filled out</h2>}
+          {requiredErrors && <h3>ERROR: Required fields were not filled out</h3>}
           {commentsError && <p>- Allowing Comments</p>}
           {docsError && <p>- Reading the document on Trigger Warnings</p>}
           {triggerError && <p>- Trigger and content warnings</p>}
           {intentError && <p>- Intent/Looking for/Seeking field</p>}
           {submissionError && <p>- Submission form</p>}
-          {optionalErrors && <h2>ERROR: Invalid email/url on optional fields</h2>}
+          {optionalErrors && <h3>ERROR: Invalid email/url on optional fields</h3>}
           {emailError && <p>- Invalid email</p>}
           {facebookURLError && <p>- Invalid Facebook URL</p>}
         </div>

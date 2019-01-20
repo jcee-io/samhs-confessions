@@ -65,19 +65,22 @@ form {
 
 
 .error-box {
-  margin: 0 auto;
+  margin: 0;
   display: block;
   padding: 1%;
   background-color: rgba(192,72,72, 0.8);
   color: whitesmoke;
-  width: 80%;
+  width: 67%;
   text-align: center;
   border-radius: 0.5em;
 }
 
+.error-box h3 {
+  transform: translateX(3%);
+}
 .error-box p {
   text-align: left;
-  transform: translateX(6%);
+  transform: translateX(3%);
   font-size: 1.35em;
 }
 
@@ -203,6 +206,7 @@ input[type='radio'] {
     width: 100%;
     max-width: none;
   }
+
   .submitted {
     height: 100vh;
   }
@@ -233,7 +237,25 @@ input[type='radio'] {
   }
 }
 
+@media only screen and (max-width: 1000px) {
+  .error-box {
+    min-width: 425px;
+  }
+  .error-box h3 {
+    font-size: 2.4vw;
+  }
+  .error-box p {
+    font-size: 1.9vw;
+  }
+}
 @media only screen and (max-width: 775px) {
+  .error-box h3 {
+    font-size: 1.32em;
+  }
+  .error-box p {
+    font-size: 1.06em;
+  }
+
   .submitted h1 {
     font-size: 4.7vw;
   }
@@ -262,6 +284,18 @@ input[type='radio'] {
 }
 
 @media only screen and (max-width: 550px) {
+  .error-box {
+    min-width: 0;
+    max-width: 425px;
+    width: 97%;
+    margin-bottom: 4vw;
+  }
+  .error-box h3 {
+    font-size: 3.3vw;
+  }
+  .error-box p {
+    font-size: 2.7vw;
+  }
 
   .page-heading {
     font-size: 6.6vw;
