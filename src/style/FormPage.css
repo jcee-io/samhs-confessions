@@ -196,8 +196,83 @@ input[type='radio'] {
   }
 }
 
-@media only screen and (max-width: 585px) {
+@media only screen and (max-width: 650px) {
   form {
     width: 100%;
+  }
+
+  .row-buttons {
+    margin: 2em 0 1em 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .allow-comments-button-no {
+    margin-left: 0;
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .page-heading {
+    font-size: 6.6vw;
+  }
+  .other {
+    font-size: 5.5vw;
+  }
+  .section-heading {
+    font-size: 4.4vw;
+    margin-top: 0;
+  }
+  .body-copy-light {
+    font-size: 3.3vw;
+  }
+  .body-copy {
+
+  }
+
+  .guidelines-body {
+    transform: translateX(calc(-3em + 6vw));
+    margin-bottom: 10vw;
+  }
+  .tw-docs {
+    margin-bottom: 0;
+  }
+  .twdocs-row {
+    margin-bottom: calc(14vw - 2em);
+  }
+  .guidelines-body li {
+    font-size: 2.8vw;
+  }
+
+  .checkbox-inline input[type='checkbox'] {
+    transform: translateY(calc(-0.1em + 2vw)) scale(1.2);
+  }
+
+  .questions,
+  .form-group h4 {
+    font-size: 3.3vw;
+    margin: 0;
+  }
+
+  .form-group {
+    margin-bottom: 4vw;
+  }
+  .form-group label {
+    margin-bottom: 1.5vw;
+  }
+  .labeltext {
+    font-size: 2.4vw;
+  }
+  .form-control {
+    font-size: 2.7vw;
+    height: auto;
+  }
+  .btn-block {
+    font-size: 3.3vw;
+    margin-bottom: 15vw;
   }
 }
