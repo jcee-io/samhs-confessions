@@ -208,7 +208,7 @@ class FormPage extends PureComponent {
         <div className="form-container submitted">
           <h1>Sad Asian Confessions Anonymous</h1>
           <h2>Thank you for your submission!</h2>
-          <h2 style={{ cursor: 'pointer', color: 'blue' }}onClick={this.returnToHome} >Return to Home</h2>
+          <h2 style={{ cursor: 'pointer', color: '#337ab7' }}onClick={this.returnToHome} >Return to Home</h2>
         </div>
       );
     }
@@ -256,12 +256,12 @@ class FormPage extends PureComponent {
                 <h4>Do you have any content or trigger warnings you’d like to include?</h4>
             </label>
             <div ref="TWChecklist" className="checklist">
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Anxiety</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Depression</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Dysfunctional Family</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Eating Disorders</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Suicide</h5></div>
-              <div className="checklist-entry"><input ref="TWChecklistOthers" type="checkbox" /><h5 className="labeltext body-copy">Others (please write below)</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Anxiety</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Depression</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Dysfunctional Family</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Eating Disorders</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Suicide</h5></div>
+              <div className="checklist-entry"><input ref="TWChecklistOthers" type="checkbox" /><h5 className="labeltext body-copy"> Others (please write below)</h5></div>
             </div>
             <input placeholder="e.g. racism, self-harm" onChange={this.handleTriggers} className="form-control" id="twTypesInput"/>
           </div>
@@ -276,12 +276,12 @@ class FormPage extends PureComponent {
                 <h4>Are you looking for any particular type of support?</h4>
             </label>
               <div ref="supportChecklist" className="checklist">
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Advice</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Opinions</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Support</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Tips</h5></div>
-              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy">Validation</h5></div>
-              <div className="checklist-entry"><input ref="supportChecklistOthers" type="checkbox" /><h5 className="labeltext body-copy">Others (please write below)</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Advice</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Opinions</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Support</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Tips</h5></div>
+              <div className="checklist-entry"><input type="checkbox" /><h5 className="labeltext body-copy"> Validation</h5></div>
+              <div className="checklist-entry"><input ref="supportChecklistOthers" type="checkbox" /><h5 className="labeltext body-copy"> Others (please write below)</h5></div>
             </div>
             <input placeholder="e.g. stories, friendship" onChange={this.handleIntent} className="form-control" id="motiveInput"/>
           </div>
