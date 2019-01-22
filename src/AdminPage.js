@@ -132,8 +132,8 @@ class AdminPage extends Component {
       </div>
     )
   };
-  togglePosted = () => {
-    this.setState({ hidePosted: !this.state.hidePosted });
+  togglePosted = event => {
+    this.setState({ hidePosted: event.target.textContent === 'Hidden' });
   };
   handlePosted = confession => {
     let action = 'hide';
@@ -209,27 +209,28 @@ class AdminPage extends Component {
       }
 
       return (<div className="confession" key={confession._id}>
-        <h2>Entry: {entry}</h2>
-        <h2>Marked as Posted?: {confession.isHidden ? 'Yes' : 'No'}</h2>
-        <h2>Commenting Allowed? {confession.allowComments ? 'Yes' : 'No'}</h2>
-        <h2>Read Trigger Warning? {confession.readTW ? 'Yes' : 'No'}</h2>
-        {this.secret && secretaccess && confession.hasEmail && <h2>Email: {confession.email || <span onClick={event => this.handleRevealClick(event, confession._id)} className="reveal-link reveal-email">[Click to reveal]</span>}</h2>}
-        {this.secret && secretaccess && confession.hasFacebookURL && <h2>Facebook URL: {confession.facebookURL || <span onClick={event => this.handleRevealClick(event, confession._id)} className="reveal-link reveal-facebookURL">[Click to reveal]</span>}</h2>}
-        <h2>Submission:</h2>
+        <h4 className="questions body-copy">Entry:<br /><span className="body-copy">{entry}</span></h4>
+        <h4 className="questions body-copy">Marked as Posted?:<br />{confession.isHidden ? 'Yes' : 'No'}</h4>
+        <h4 className="questions body-copy">Commenting Allowed?<br />{confession.allowComments ? 'Yes' : 'No'}</h4>
+        <h4 className="questions body-copy">Read Trigger Warning?<br />{confession.readTW ? 'Yes' : 'No'}</h4>
+        {this.secret && secretaccess && confession.hasEmail && <h4 className="questions body-copy">Email:<br />{confession.email || <span onClick={event => this.handleRevealClick(event, confession._id)} className="reveal-link reveal-email">[Click to reveal]</span>}</h4>}
+        {this.secret && secretaccess && confession.hasFacebookURL && <h4 className="questions body-copy">Facebook URL:<br />{confession.facebookURL || <span onClick={event => this.handleRevealClick(event, confession._id)} className="reveal-link reveal-facebookURL">[Click to reveal]</span>}</h4>}
+        <h4 className="questions body-copy">Submission:</h4>
         <textarea
           id={confession._id}
-          rows="25"
+          className="form-control"
+          rows="15"
           value={submission}
           readOnly
         />
         <div className="button-row">
-          <Clipboard className="btn btn-success" data-clipboard-text={submission}>
+          <Clipboard className="btn btn-inactive" data-clipboard-text={submission}>
             Copy to Clipboard
           </Clipboard>
-          <button onClick={() => this.handlePosted(confession)} className="btn btn-warning">
+          <button onClick={() => this.handlePosted(confession)} className="btn btn-inactive">
             {confession.isHidden ? 'Unmark' : 'Mark'} As Posted
           </button>
-          <button value={confession._id} onClick={this.handleDelete} className="btn btn-danger">
+          <button value={confession._id} onClick={this.handleDelete} className="btn btn-inactive">
             Delete
           </button>
         </div>
@@ -251,8 +252,8 @@ class AdminPage extends Component {
     }
   };
 
-  handleFlipOrder = () => {
-    this.setState({ flipOrder: !this.state.flipOrder });
+  handleFlipOrder = event => {
+    this.setState({ flipOrder: event.target.textContent === 'Chronological' });
   };
 
   handleDeleteModalClick = event => {
@@ -339,28 +340,32 @@ class AdminPage extends Component {
         <div className="admin-page">
           <div className="placeholder-box"/>
           <div className="entry-container">
-            {access && (
-              <div className = "title-container text-center">
-                  <h1>{secretaccess ? 'Admin' : 'Team'} Confessions View</h1>
-                  <img className={`img-responsive`} src = {horizontalLine} alt={`horizontal title underline`}/>
-              </div>
-            )}
-            {access && (
-              <div>
-                <h2 className="upper-h2 upper-h2-header">Confessions Status</h2>
-                <h2 className="upper-h2 upper-h2-content">
-                  Order Viewed: {flipOrder ? 'Chronological' : 'Reverse Chronological'}
-                  <br />
-                  Approved Posts: {hidePosted ? 'Hidden' : 'Visible'}
-                </h2>
-                <div className="button-row">
-                  <button onClick={this.handleFlipOrder} className="btn btn-success">Reverse Order</button>
-                  <button onClick={this.togglePosted} className="btn btn-warning">{hidePosted ? 'Show Posted' : 'Hide Posted'}</button>
+            <div className="entry-container-inner">
+              {access && (
+                <div>
+                  <h1 className="page-heading">Sad Asian Confessions</h1>
+                  <h2 className="other">{secretaccess ? 'Admin' : 'Team'} Confessions View</h2>
+                  <h3 className="section-heading">Sort Confessions Status</h3>
+                  <div className="confession-switches">
+                    <div className="switch">
+                      <h4 className="question4">Order Viewed</h4>
+                      <div onClick={this.handleFlipOrder} className="btn-group button-switch">
+                        <button className={`btn button-switch-first ${!flipOrder ? 'btn-default' : 'btn-inactive'}`}>Reverse Chronological</button>
+                        <button className={`btn button-switch-second ${flipOrder ? 'btn-default' : 'btn-inactive'}`}>Chronological</button>
+                      </div>
+                      <h4 className="question4">Approved Posts</h4>
+                      <div onClick={this.togglePosted} className="btn-group button-switch">
+                        <button className={`btn button-switch-first ${hidePosted ? 'btn-default' : 'btn-inactive'}`}>Hidden</button>
+                        <button className={`btn button-switch-second ${!hidePosted ? 'btn-default' : 'btn-inactive'}`}>Posted</button>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="section-heading">Confessions Status</h3>
                 </div>
-              </div>
-            )}
-            {access && this.renderConfessions().slice(0, 10 * page)}
-            {!access && this.renderPasswordInput()}
+              )}
+              {access && this.renderConfessions().slice(0, 10 * page)}
+              {!access && this.renderPasswordInput()}
+            </div>
           </div>
           <div className="placeholder-box"/>
         </div>

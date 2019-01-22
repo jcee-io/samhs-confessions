@@ -41,10 +41,10 @@ class FormPage extends PureComponent {
       }
     });
 
-    let checklistString = checklistItems.join(', ');
+    let checklistString = checklistItems.join(',');
 
     if(field !== null && field !== '') {
-      checklistString += checklistItems.length ? ',' + field : field;
+      checklistString += checklistItems.length ? ', ' + field : field;
     }
 
     return checklistString;

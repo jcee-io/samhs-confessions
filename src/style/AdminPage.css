@@ -1,12 +1,19 @@
 .admin-page {
   height: auto;
   width: calc(100% - 2vh);
-  max-width: 69em;
+  max-width: 80em;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
 
+.admin-page .section-heading {
+  margin: 2em 0 1em 0;
+}
+
+.admin-page .body-copy {
+  margin: 0.5em 0;
+}
 .placeholder-box {
   height: 40px;
 }
@@ -47,47 +54,51 @@
   background-color: whitesmoke;
   padding-bottom: 3%;
 }
-.entry-container h1 {
-  text-align: center;
-}
-.entry-container h2 {
-  text-align: left;
-  margin: 1em 6%;
-  font-size: 1em;
+
+.entry-container-inner {
+  width: 100%;
 }
 
-.entry-container .upper-h2 {
-  text-align: center;
-  transform: translateY(-1.4em);
+.button-switch {
+  width: 50%;
+  display: flex;
 }
 
-.entry-container .upper-h2-header {
-  font-size: 2em;
+.button-switch button {
+  width: 50%;
+  padding: 0.8em;
 }
 
-.entry-container .upper-h2-content {
-  font-size: 1.3em;
-  transform: translateY(-3em);
+.button-switch .btn-default:hover,
+.button-switch .btn-default:active,
+.button-switch .btn-default:focus,
+.button-switch .btn-inactive:hover,
+.button-switch .btn-inactive:focus,
+.button-switch .btn-inactive:active {
+  background: #fff;
+  border-color: #ccc;
 }
+
 .entry-container textarea {
-  display: block;
-  margin: 0 auto;
-  width: 87.5%;
+  width: 100%;
 }
 
 .entry-container .button-row {
-  width: 87.5%;
-  text-align: center;
+  width: 67%;
   display: flex;
-  margin: 0 auto;
+  justify-content: space-between;
+  margin: 1.5em 0 4em 0;
 }
 
 .entry-container .button-row button {
-  width: 33.33%;
+  width: 25%;
   padding: 0.5em 0;
-  margin: 0 auto;
+  border-color: #ccc;
 }
 
+.entry-container .button-row .btn-inactive:hover {
+  background: #fff;
+}
 .entry-container .button-row .clipboard {
   color: #fff;
   background-color: rgb(106, 175, 118);
@@ -145,5 +156,32 @@
   .placeholder-box {
     height: 0;
     width: 0;
+  }
+  .button-row .btn {
+  }
+
+  .btn-group {
+    width: calc(800px - 20vw);
+  }
+  .entry-container .button-row {
+    width: calc(800px - 20vw);
+  }
+}
+
+
+@media only screen and (max-width: 825px) {
+  .entry-container .button-row {
+    width: 100%;
+  }
+  .button-switch .btn {
+    font-size: 1.7vw;
+  }
+
+  .btn-group {
+    width: 100%;
+  }
+
+  .entry-container .button-row .btn {
+    font-size: 1.7vw;
   }
 }
