@@ -61,9 +61,14 @@
 .questions {
 }
 
-@media only screen and (max-width: 1140px) and (orientation: portrait){
+@media only screen and (max-width: 1140px) {
   .App {
     background-color: none;
+  }
+
+  .form-container,
+  .entry-container {
+      box-shadow: none;
   }
 }
 
